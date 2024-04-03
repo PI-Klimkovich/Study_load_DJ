@@ -1,0 +1,76 @@
+{% if user.is_authenticated %}
+
+  <header class="p-3 mb-3 border-bottom">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Бутстрап"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary">Дом</a></li>
+          <li><a href="{% url 'about' %}" class="nav-link px-2 link-body-emphasis">О приложении</a></li>
+          <li><a href="{% url 'about' %}" class="nav-link px-2 link-body-emphasis">Преподаватели</a></li>
+          <li><a href="{% url 'about' %}" class="nav-link px-2 link-body-emphasis">Теги</a></li>
+        </ul>
+
+        <form class="d-flex" role="search" action="{% url 'about' %}">
+          <input name="search" value="{{ search_value_form }}"
+                 class="form-control me-2" type="search" placeholder="Поиск..." aria-label="Поиск">
+          <button class="btn btn-outline-success me-2" type="submit">Поиск</button>
+        </form>
+
+        <div class="d-flex gap-2 justify-content-center me-2">
+          <span class="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
+            <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png" alt="">{{ user }}
+          </span>
+        </div>
+
+        <div class="text-end">
+          {# <a class="btn btn btn-light me-2" href="{% url 'profile-view' user %}" role="button">Мой профиль</a> #}
+          <a class="btn btn btn-light me-2" href="{% url 'about' %}" role="button">Мой профиль</a>
+        </div>
+
+        <div class="text-end">
+          <a class="btn btn-info me-2" href="{% url 'about' %}" role="button">Мои заметки</a>
+        </div>
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button class="btn btn-warning" type="submit">Выйти</button>
+        </form>
+
+      </div>
+    </div>
+  </header>
+
+{% else %}
+
+  <header class="p-3 text-bg-dark">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Бутстрап"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="{% url 'home' %}" class="nav-link px-2 text-secondary">Дом</a></li>
+          <li><a href="{% url 'about' %}" class="nav-link px-2 text-white">О приложении</a></li>
+          <li><a href="{% url 'about' %}" class="nav-link px-2 text-white">Преподаватели</a></li>
+          <li><a href="{% url 'about' %}" class="nav-link px-2 text-white">Теги</a></li>
+        </ul>
+
+        <form class="d-flex" role="search" action="{% url 'about' %}">
+          <input name="search" value="{{ search_value_form }}"
+                 class="form-control me-2 text-bg-dark" type="search" placeholder="Поиск..." aria-label="Поиск">
+          <button class="btn btn-outline-success me-2" type="submit">Поиск</button>
+        </form>
+
+        <div class="text-end">
+          <a class="btn btn-outline-light" href="{% url 'register' %}" role="button">Зарегистрироваться</a>
+          <a class="btn btn-warning" href="{% url 'login' %}" role="button">Войти</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+{% endif %}
