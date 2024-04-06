@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Good create
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+  <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <p class="display-4 fw-normal text-body-emphasis">{{ user.first_name }} {{ user.middle_name }}</p>
+    <p class="display-6 fw-normal text-body-emphasis">Ваши данные успешно изменены.</p>
+    <p class="fs-5 text-body-secondary">Удачного Вам времяпрепровождения.</p>
+  </div>
+</div>
+{% endblock %}

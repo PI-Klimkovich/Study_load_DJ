@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Update profile
+{% endblock %}
+
+{% block content %}
+  <div class='container'>
+
+	<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+      <h1 class="display-4 fw-normal text-body-emphasis">Вы можете внести изменения</h1>
+    </div>
+
+    <form action="{% url 'profile-update' %}" method="post" enctype="multipart/form-data">
+
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col p-2">
+          <label for="exampleFormControlInput1" class="form-label">Должность</label>
+          <input name="academic_title" type="text" class="form-control" placeholder="Должность" aria-label="Должность" id="exampleFormControlInput1" value="{{ titles.academic_title }}">
+        </div>
+        <div class="col p-2">
+          <label for="exampleFormControlInput1" class="form-label">Степень</label>
+          <input name="academic_degree" type="text" class="form-control" placeholder="Степень" aria-label="Степень" id="exampleFormControlInput1" value="{{ titles.academic_degree }}">
+        </div>
+        <div class="col p-2">
+          <label for="exampleFormControlInput1" class="form-label">Звание</label>
+          <input name="academic_title" type="text" class="form-control" placeholder="Звание" aria-label="Звание" id="exampleFormControlInput1" value="{{ titles.academic_title }}">
+        </div>
+        <div class="col p-2">
+          <label for="startDate" class="form-label">Дата изменений</label>
+          <input name="assignment_date" type="date" class="form-control" id="startDate" value="{{ titles.assignment_date|date:'Y-m-d' }}">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-outline-primary">Изменить</button>
+
+    </form>
+
+  </div>
+{% endblock %}

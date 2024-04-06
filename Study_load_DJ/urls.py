@@ -17,13 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from load.views import home_page_view, about_view
+from django.conf.urls.static import serve
+from django.conf import settings
+
 # from load.views import filter_notes_view
 from user import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include("django.contrib.auth.urls")),
-    path('accounts/register', views.register_view, name="register"),
+    # path('accounts/register', views.register_view, name="register"),
 
     path('', home_page_view, name='home'),
     path('about', about_view, name='about'),
@@ -32,7 +35,7 @@ urlpatterns = [
     path('user/', include("user.urls")),
     path('load/', include("load.urls")),
     path('distribution/', include("distribution.urls")),
-    # re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
+    re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
     # path("__debug__/", include("debug_toolbar.urls")),
 
     # path('api/notes/', include('notes.api.urls')),

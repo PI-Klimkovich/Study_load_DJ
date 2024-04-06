@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Update profile
+{% endblock %}
+
+{% block content %}
+  <div class='container'>
+
+	<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+      <h1 class="display-4 fw-normal text-body-emphasis">Вы можете внести изменения</h1>
+    </div>
+
+    <form action="{% url 'profile-update' %}" method="post" enctype="multipart/form-data">
+
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col p-2">
+          <label for="exampleFormControlInput1" class="form-label">Фамилия</label>
+          <input name="last_name" type="text" class="form-control" placeholder="Фамилия+" aria-label="Фамилия-" id="exampleFormControlInput1" value="{{ user.last_name }}">
+        </div>
+        <div class="col p-2">
+          <label for="exampleFormControlInput1" class="form-label">Имя</label>
+          <input name="first_name" type="text" class="form-control" placeholder="Имя" aria-label="Имя" id="exampleFormControlInput1" value="{{ user.first_name }}">
+        </div>
+        <div class="col p-2">
+          <label for="exampleFormControlInput1" class="form-label">Отчество</label>
+          <input name="middle_name" type="text" class="form-control" placeholder="Отчество" aria-label="Отчество" id="exampleFormControlInput1" value="{{ user.middle_name }}">
+        </div>
+        <div class="col p-2">
+          <label for="startDate" class="form-label">Дата рождения</label>
+          <input name="birthday" type="date" class="form-control" id="startDate" value="{{ user.birthday|date:'Y-m-d' }}">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col p-2">
+          <label for="exampleFormControlInput1" class="form-label">НЕчто</label>
+          <input name="last_name" type="text" class="form-control" placeholder="Фамилия+" aria-label="Фамилия-" id="exampleFormControlInput1" value="{{ user.last_name }}">
+        </div>
+        <div class="col p-2">
+          <label for="exampleInputEmail1" class="form-label">Адрес электронной почты</label>
+          <input name="email" type="email" class="form-control"id="exampleInputEmail1" value="{{ user.email }}">
+        </div>
+        <div class="col p-2">
+          <label for="exampleFormControlInput1" class="form-label">Телефон</label>
+          <input name="phone" type="text" class="form-control" placeholder="Телефон" aria-label="Телефон" id="exampleFormControlInput1" value="{{ user.phone }}">
+        </div>
+        <div class="col p-2">
+          <label for="exampleFormControlInput1" class="form-label">Почтовый адрес</label>
+          <input name="address" type="text" class="form-control" placeholder="Почтовый адрес" aria-label="Почтовый адрес" id="exampleFormControlInput1" value="{{ user.address }}">
+        </div>
+      </div>
+
+      <div class="p-2">
+        <label for="exampleFormControlTextarea1" class="form-label">Краткие сведения</label>
+        <textarea name="description" class="form-control" placeholder="Напишите о себе" id="exampleFormControlTextarea1" rows="8">{{ user.description }}</textarea>
+      </div>
+
+      <div class="mb-3 p-3">
+        <label for="exampleFormControlInput1" class="form-label">Заменить фотографию</label><br>
+        <input name="photoImage" type="file" class="form-control-file" id="exampleFormControlFile1">
+      </div>
+
+      <button type="submit" class="btn btn-outline-primary">Изменить</button>
+
+    </form>
+
+  </div>
+{% endblock %}

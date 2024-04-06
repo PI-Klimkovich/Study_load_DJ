@@ -104,8 +104,8 @@ class LoadAdmin(admin.ModelAdmin):
     print(1, OnDate.on_date)
 
     list_filter = [
-        # "academic_year",
+        "load_info__academic_year",
         "on_date",
-        # "form_study",
-        # "load_info__semester"
+        "load_info__semester",
+        "load_info__form_study",
     ]

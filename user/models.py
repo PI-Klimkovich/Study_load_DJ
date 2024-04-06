@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 
 def upload_to(instance: "User", filename: str) -> str:
@@ -70,3 +71,24 @@ class Titles(models.Model):
     class Meta:
         db_table = "titles"
         ordering = ("-assignment_date",)
+
+    @property
+    def verbose_job_title(self) -> str:
+        for value, label in self.JobTitle.choices:
+            if value == self.job_title:
+                return label
+        return "Unknown job title"
+
+    @property
+    def verbose_academic_degree(self) -> str:
+        for value, label in self.AcademicDegree.choices:
+            if value == self.academic_degree:
+                return label
+        return "Unknown academic degree"
+
+    @property
+    def verbose_academic_title(self) -> str:
+        for value, label in self.AcademicTitle.choices:
+            if value == self.academic_title:
+                return label
+        return "Unknown academic title"

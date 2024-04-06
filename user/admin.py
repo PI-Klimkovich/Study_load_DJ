@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.utils.safestring import mark_safe
 
 from .models import User, Titles
 
@@ -8,10 +9,11 @@ from .models import User, Titles
 class CustomUserAdmin(UserAdmin):
 
     list_display = [
+        "preview_image",
+        'username',
         'last_name',
         'first_name',
         'middle_name',
-        'username',
         'is_active',
         'email',
         'phone',
@@ -20,13 +22,9 @@ class CustomUserAdmin(UserAdmin):
         "is_superuser",
     ]
     search_fields = ['username', 'last_name']
-    date_hierarchy = "date_joined"
     actions = ["block_user", "unlock_user"]
     list_editable = ("is_active",)
-
-    # @admin.display(description="Counts notes")
-    # def count_note(self, obj):
-    #     return obj.note_set.count()
+    readonly_fields = ["preview_image"]
 
     @admin.action(description='Block User')
     def block_user(self, request, queryset):
@@ -36,9 +34,15 @@ class CustomUserAdmin(UserAdmin):
     def unlock_user(self, request, queryset):
         queryset.update(is_active=True)
 
+    @admin.display(description="Фото")
+    def preview_image(self, obj: User) -> str:
+        if obj.photo:
+            return mark_safe(f'<img src="{obj.photo.url}" height="100" />')
+        return "}{"
+
     fieldsets = (
         # 1  tuple(None, dict)
-        (None, {"fields": ("username",)}),
+        (None, {"fields": ("username", "preview_image",)}),
 
         # 2  tuple(str, dict)
         (
@@ -80,4 +84,3 @@ class CustomUserAdmin(UserAdmin):
 @admin.register(Titles)
 class TitlesAdmin(admin.ModelAdmin):
     list_display = ["assignment_date", "user", "job_title", "academic_degree", "academic_title"]
-

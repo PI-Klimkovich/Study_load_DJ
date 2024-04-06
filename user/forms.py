@@ -7,6 +7,8 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(max_length=50)
     password1 = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput)
+    last_name = forms.CharField(min_length=3, max_length=50)
+    first_name = forms.CharField(min_length=3, max_length=50)
 
     # Методы для валидации полей называются: `clean_` + `название поля`
     def clean_username(self):

@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Update profile
+{% endblock %}
+
+{% block content %}
+  <div class='container'>
+
+    <div class="text-center">
+      <h2 class="display-5 link-body-emphasis mb-1">Ваш профиль</h2>
+    </div>
+
+    <a href="{% url 'profile-update' %}" class="btn btn-outline-primary">Редактировать</a>
+
+    <hr>
+    {#  Photo  #}
+    {% if user.photo %}
+      <div class="d-flex justify-content-center">
+        <img style="max-height: 150px;" src="{{ user.photo.url }}">
+      </div>
+    {% endif %}
+
+    <div class="alert alert-info">
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-light" role="alert">
+            {{ user.last_name }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-light" role="alert">
+            {{ user.first_name }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-light" role="alert">
+            {{ user.middle_name }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-light" role="alert">
+            {{ user.birthday }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-light" role="alert">
+            {{ user.birthday }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-light" role="alert">
+            {{ user.email }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-light" role="alert">
+            {{ user.phone }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-light" role="alert">
+            {{ user.address }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-light" role="alert">
+            {{ user.description | safe | linebreaks }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="alert alert-info">
+      <div class="row">
+        <div class="col">
+          <label class="form-label">Должность</label>
+          <div class="alert alert-light" role="alert">
+            {{ titles.job_title }}
+          </div>
+        </div>
+        <div class="col">
+          <label class="form-label">Степень</label>
+          <div class="alert alert-light" role="alert">
+            {{ titles.academic_degree }}
+          </div>
+        </div>
+        <div class="col">
+          <label class="form-label">Звание</label>
+          <div class="alert alert-light" role="alert">
+            {{ titles.academic_title }}
+          </div>
+        </div>
+        <div class="col">
+          <label class="form-label">Дата изменений</label>
+          <div class="alert alert-light" role="alert">
+            {{ titles.assignment_date }}
+          </div>
+        </div>
+        <div class="col text-center">
+          <label class="form-label">Что-то изменилось?</label>
+          <a href="{% url 'titles-update' %}" class="btn btn-outline-primary">Редактировать</a>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+            {% for title in titles %}
+                 {{ title }}
+            {% endfor %}
+
+    <p><b>Nickname: {{ user.username }}</b></p>
+
+  </div>
+{% endblock %}
