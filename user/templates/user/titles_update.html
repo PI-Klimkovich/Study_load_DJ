@@ -18,15 +18,15 @@
       <div class="row">
         <div class="col p-2">
           <label for="exampleFormControlInput1" class="form-label">Должность</label>
-          <input name="academic_title" type="text" class="form-control" placeholder="Должность" aria-label="Должность" id="exampleFormControlInput1" value="{{ titles.academic_title }}">
+          <input name="job_title" type="text" class="form-control" placeholder="Должность" aria-label="Должность" id="exampleFormControlInput1" value="{{ titles.get_job_title_display }}">
         </div>
         <div class="col p-2">
           <label for="exampleFormControlInput1" class="form-label">Степень</label>
-          <input name="academic_degree" type="text" class="form-control" placeholder="Степень" aria-label="Степень" id="exampleFormControlInput1" value="{{ titles.academic_degree }}">
+          <input name="academic_degree" type="text" class="form-control" placeholder="Степень" aria-label="Степень" id="exampleFormControlInput1" value="{{ titles.get_academic_degree_display }}">
         </div>
         <div class="col p-2">
           <label for="exampleFormControlInput1" class="form-label">Звание</label>
-          <input name="academic_title" type="text" class="form-control" placeholder="Звание" aria-label="Звание" id="exampleFormControlInput1" value="{{ titles.academic_title }}">
+          <input name="academic_title" type="text" class="form-control" placeholder="Звание" aria-label="Звание" id="exampleFormControlInput1" value="{{ titles.get_academic_title_display }}">
         </div>
         <div class="col p-2">
           <label for="startDate" class="form-label">Дата изменений</label>

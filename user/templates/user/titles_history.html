@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Update profile
+{% endblock %}
+
+{% block content %}
+  <div class='container'>
+
+    <div class="text-center">
+      <h2 class="display-5 link-body-emphasis mb-1">История Вашего "роста", {{ user.first_name }} {{ user.middle_name }}.</h2>
+    </div>
+
+    <hr>
+
+    <div class="alert alert-info">
+      <div class="row">
+        <div class="col">
+          <label class="form-label">Должность</label>
+        </div>
+        <div class="col">
+          <label class="form-label">Степень</label>
+        </div>
+        <div class="col">
+          <label class="form-label">Звание</label>
+        </div>
+        <div class="col">
+          <label class="form-label">Дата изменений</label>
+        </div>
+      </div>
+
+
+      {% if titles|length > 0 %}
+        {% for title in titles %}
+
+          <div class="row">
+            <div class="col">
+              <div class="alert alert-light" role="alert">
+                {{ title.get_job_title_display }}
+              </div>
+            </div>
+            <div class="col">
+              <div class="alert alert-light" role="alert">
+                {{ title.get_academic_degree_display }}
+              </div>
+            </div>
+            <div class="col">
+              <div class="alert alert-light" role="alert">
+                {{ title.get_academic_title_display }}
+              </div>
+            </div>
+            <div class="col">
+              <div class="alert alert-light" role="alert">
+                {{ title.assignment_date }}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>У нас пока нет "истории".</p>
+      {% endif %}
+
+    </div>
+
+  </div>
+{% endblock %}

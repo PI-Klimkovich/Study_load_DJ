@@ -39,13 +39,7 @@ def profile_view(request: WSGIRequest):
     print(user.id)
     titles = Titles.objects.filter(user=user.id).order_by("-assignment_date").first()
     print(titles.assignment_date, titles.academic_title, titles.academic_degree, titles.job_title)
-    return render(request, 'user/profile_view.html', {'titles': 'titles'})
-
-
-# @login_required()
-# def your_notes_view(request: WSGIRequest, username):
-#     user = User.objects.get(username=username)
-#     return render(request, 'user/profile_view.html', {"user": user})
+    return render(request, 'user/profile_view.html', {'titles': titles})
 
 
 @login_required
@@ -87,18 +81,23 @@ def profile_update(request: WSGIRequest):
     return render(request, 'user/profile_update.html')
 
 
+@login_required()
+def titles_history(request: WSGIRequest):
+    user = get_object_or_404(User, username=request.user.username)
+    titles = Titles.objects.filter(user=user.id).order_by("assignment_date")
+    print(titles)
+    return render(request, 'user/titles_history.html', {"titles": titles})
+
+
 @login_required
 def titles_update(request: WSGIRequest):
     user = get_object_or_404(User, username=request.user.username)
     titles = Titles.objects.filter(user=user.id).order_by("-assignment_date").first()
-    print(titles.assignment_date, titles.academic_title, titles.academic_degree, titles.job_title)
 
     if user != request.user:
         return HttpResponseForbidden("У Вас нет разрешения на редактирование объекта")
-    print('ok-li-', request.method)
 
     if request.method == "POST":
-        print('ok-li')
 
         user = User.objects.get(username=user.username)
         user.last_name = request.POST.get("last_name", user.last_name)
@@ -118,13 +117,28 @@ def titles_update(request: WSGIRequest):
                     os.remove(old_photo_path)
             user.photo = new_photo
         user.save()
-        print('ok-li')
-        # return HttpResponseRedirect(reverse("profile_ok"))
-        # return HttpResponseRedirect(reverse("profile_view"))
-        # return render(request, 'user/profile_view.html')
         return render(request, "user/update_ok.html", {"user": user})
 
-    return render(request, 'user/titles_update.html')
+    return render(request, 'user/titles_update.html', {'titles': titles})
+
+
+@login_required
+def titles_create(request: WSGIRequest):
+    print(request.method)
+    if request.method == "POST":
+        titles = Titles.objects.create(
+            job_title=request.POST["job_title"],
+            academic_degree=request.POST["academic_degree"],
+            academic_title=request.POST["academic_title"],
+            assignment_date=request.POST["assignment_date"],
+            user=request.user,
+        )
+        print(titles)
+        return render(request, "user/update_ok.html", {"user": request.user})
+
+    titles = Titles.objects.filter(user=request.user.id).first()
+    print(titles.JobTitle.choices[1][1])
+    return render(request, 'user/titles_create.html', {"titles": titles})
 
 
 def about_profile(request):

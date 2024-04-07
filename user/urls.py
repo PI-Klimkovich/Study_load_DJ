@@ -13,4 +13,6 @@ urlpatterns = [
     path("profile/", views.profile_view, name="profile-view"),
     path("profile/update", views.profile_update, name="profile-update"),
     path("titles/update", views.titles_update, name="titles-update"),
+    path("titles/history", views.titles_history, name="titles-history"),
+    path("titles/create", views.titles_create, name="titles-create"),
 ]

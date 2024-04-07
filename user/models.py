@@ -53,20 +53,38 @@ class Titles(models.Model):
         engineer = ('Engineer', 'Инженер')
         technician = ('Technician', 'Техник')
 
-    job_title = models.CharField(max_length=25, choices=JobTitle.choices, verbose_name="Должность")
+    job_title = models.CharField(
+        max_length=25,
+        choices=JobTitle.choices,
+        verbose_name="Должность",
+        default='-'
+    )
 
     class AcademicDegree(models.TextChoices):
         doctor = ('D', 'Доктор')
         candidate_of_sciences = ('C', 'Кандидат')
         master = ('M', 'Магистр')
 
-    academic_degree = models.CharField(max_length=1, null=True, blank=True, choices=AcademicDegree.choices, verbose_name="Степень")
+    academic_degree = models.CharField(
+        max_length=1,
+        null=True,
+        blank=True,
+        choices=AcademicDegree.choices,
+        verbose_name="Степень",
+        default='-')
 
     class AcademicTitle(models.TextChoices):
         professor = ('P', 'Профессор')
         docent = ('D', 'Доцент')
 
-    academic_title = models.CharField(max_length=1, null=True, blank=True, choices=AcademicTitle.choices, verbose_name="Звание")
+    academic_title = models.CharField(
+        max_length=1,
+        null=True,
+        blank=True,
+        choices=AcademicTitle.choices,
+        verbose_name="Звание",
+        default='-'
+    )
 
     class Meta:
         db_table = "titles"

@@ -8,7 +8,7 @@
   <div class='container'>
 
     <div class="text-center">
-      <h2 class="display-5 link-body-emphasis mb-1">Ваш профиль</h2>
+      <h2 class="display-5 link-body-emphasis mb-1">Ваш профиль, {{ user.first_name }} {{ user.middle_name }}</h2>
     </div>
 
     <a href="{% url 'profile-update' %}" class="btn btn-outline-primary">Редактировать</a>
@@ -82,19 +82,19 @@
         <div class="col">
           <label class="form-label">Должность</label>
           <div class="alert alert-light" role="alert">
-            {{ titles.job_title }}
+            {{ titles.get_job_title_display }}
           </div>
         </div>
         <div class="col">
           <label class="form-label">Степень</label>
           <div class="alert alert-light" role="alert">
-            {{ titles.academic_degree }}
+            {{ titles.get_academic_degree_display }}
           </div>
         </div>
         <div class="col">
           <label class="form-label">Звание</label>
           <div class="alert alert-light" role="alert">
-            {{ titles.academic_title }}
+            {{ titles.get_academic_title_display }}
           </div>
         </div>
         <div class="col">
@@ -104,16 +104,16 @@
           </div>
         </div>
         <div class="col text-center">
-          <label class="form-label">Что-то изменилось?</label>
-          <a href="{% url 'titles-update' %}" class="btn btn-outline-primary">Редактировать</a>
+          <div class="row">
+            <a href="{% url 'titles-history' %}" class="btn btn-outline-primary">История</a>
+            <a href="{% url 'titles-update' %}" class="btn btn-outline-primary">Редактировать текущий</a>
+            <a href="{% url 'titles-create' %}" class="btn btn-outline-primary">Создать</a>
+          </div>
         </div>
       </div>
     </div>
 
     <hr>
-            {% for title in titles %}
-                 {{ title }}
-            {% endfor %}
 
     <p><b>Nickname: {{ user.username }}</b></p>
 
