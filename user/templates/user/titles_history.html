@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block title %}
-	Update profile
+	History
 {% endblock %}
 
 {% block content %}
   <div class='container'>
 
     <div class="text-center">
-      <h2 class="display-5 link-body-emphasis mb-1">История Вашего "роста", {{ user.first_name }} {{ user.middle_name }}.</h2>
+      <h2 class="display-5 link-body-emphasis mb-1">История Вашего "карьерного роста", {{ user.first_name }} {{ user.middle_name }}.</h2>
     </div>
 
     <hr>
@@ -28,7 +28,6 @@
           <label class="form-label">Дата изменений</label>
         </div>
       </div>
-
 
       {% if titles|length > 0 %}
         {% for title in titles %}

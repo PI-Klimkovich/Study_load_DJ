@@ -10,7 +10,7 @@
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary">Дом</a></li>
           <li><a href="{% url 'about' %}" class="nav-link px-2 link-body-emphasis">О приложении</a></li>
-          <li><a href="{% url 'about' %}" class="nav-link px-2 link-body-emphasis">Преподаватели</a></li>
+          <li><a href="{% url 'teachers' %}" class="nav-link px-2 link-body-emphasis">Преподаватели</a></li>
           <li><a href="{% url 'about' %}" class="nav-link px-2 link-body-emphasis">Теги</a></li>
         </ul>
 
@@ -31,7 +31,7 @@
         </div>
 
         <div class="text-end">
-          <a class="btn btn-info me-2" href="{% url 'about' %}" role="button">Мои заметки</a>
+          <a class="btn btn-info me-2" href="{% url 'about' %}" role="button">Моя нагрузка</a>
         </div>
         <form action="{% url 'logout' %}" method="post">
           {% csrf_token %}

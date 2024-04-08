@@ -36,8 +36,12 @@
 
       <div class="row">
         <div class="col p-2">
-          <label for="exampleFormControlInput1" class="form-label">НЕчто</label>
-          <input name="last_name" type="text" class="form-control" placeholder="Фамилия+" aria-label="Фамилия-" id="exampleFormControlInput1" value="{{ user.last_name }}">
+          <fieldset disabled>
+            <div class="mb-3">
+              <label for="disabledTextInput" class="form-label">На кафедре с ...</label>
+              <input type="text" id="disabledTextInput" class="form-control" value="{{ reception_date }}">
+            </div>
+          </fieldset>
         </div>
         <div class="col p-2">
           <label for="exampleInputEmail1" class="form-label">Адрес электронной почты</label>

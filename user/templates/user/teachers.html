@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+	Teachers
+{% endblock %}
+
+{% block content %}
+
+<div class='container'>
+  <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 fw-normal text-body-emphasis">Наши преподаватели</h1>
+  </div>
+
+  {% if users|length > 0 %}
+    {% for user in users %}
+      <div class="alert alert-info">
+        <div class="row">
+          <div class="col p-2">
+            <h2>
+              <a class="text-dark text-decoration-none" href="{#}">{{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}</a>
+            </h2>
+            <p class="card-text my-3">Занимаемая должность {{ user.birthday }}</p>
+            <p class="card-text my-3">Ученая степень {{ user.birthday }}</p>
+            <p class="card-text my-3">Ученое звание {{ user.birthday }}</p>
+            <p class="card-text my-3">На кафедре с {{ user.birthday }}</p>
+            <p>{{ user.description }}</p>
+          </div>
+          {% if user.photo %}
+            <div class="col-3 p-2">
+              <img src="{{ user.photo.url }}"
+                   class="d-block mx-lg-auto img-fluid rounded-3" alt="Bootstrap Themes" width="400" loading="lazy">
+            </div>
+          {% endif %}
+        </div>
+
+        <h4>Карьерный рост</h4>
+        {% if titles|length > 0 %}
+          {% for title in titles %}
+            <div class="row">
+              <div class="col">
+                <div class="alert alert-light" role="alert">
+                  {{ title.get_job_title_display }}
+                </div>
+              </div>
+              <div class="col">
+                <div class="alert alert-light" role="alert">
+                  {{ title.get_academic_degree_display }}
+                </div>
+              </div>
+              <div class="col">
+                <div class="alert alert-light" role="alert">
+                  {{ title.get_academic_title_display }}
+                </div>
+              </div>
+              <div class="col">
+                <div class="alert alert-light" role="alert">
+                  {{ title.assignment_date }}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>Это не сотрудник кафедры.</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>Хм... Странно - неужели расформировали кафедру 😉? </p>
+    <p>Мало вероятно 😊. </p>
+    <p>Кто-то просто не заполнил БД 😔. </p>
+  {% endif %}
+
+</div>
+{% endblock %}

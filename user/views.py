@@ -5,7 +5,7 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
-from load.models import Load
+# from load.models import Load
 from .models import User, Titles
 from .forms import RegisterForm
 
@@ -36,10 +36,15 @@ def profile_view(request: WSGIRequest):
     # print(user, user.username, request.user, request.user.username)
     if user != request.user:
         return HttpResponseForbidden("У Вас нет разрешения на редактирование объекта")
-    print(user.id)
+    # print(user.id)
     titles = Titles.objects.filter(user=user.id).order_by("-assignment_date").first()
-    print(titles.assignment_date, titles.academic_title, titles.academic_degree, titles.job_title)
-    return render(request, 'user/profile_view.html', {'titles': titles})
+    title = Titles.objects.filter(user=user.id).order_by("assignment_date").first()
+    # print(titles.assignment_date, titles.academic_title, titles.academic_degree, titles.job_title)
+    return render(
+        request,
+        'user/profile_view.html',
+        {'titles': titles, 'reception_date': title.assignment_date}
+    )
 
 
 @login_required
@@ -49,11 +54,8 @@ def profile_update(request: WSGIRequest):
     print(user, user.username, request.user, request.user.username)
     if user != request.user:
         return HttpResponseForbidden("У Вас нет разрешения на редактирование объекта")
-    print('ok-li-', request.method)
 
     if request.method == "POST":
-        print('ok-li')
-
         user = User.objects.get(username=user.username)
         user.last_name = request.POST.get("last_name", user.last_name)
         user.first_name = request.POST.get("first_name", user.first_name)
@@ -62,7 +64,6 @@ def profile_update(request: WSGIRequest):
         user.address = request.POST.get("address", user.address)
         user.birthday = request.POST.get("birthday", user.birthday)
         user.description = request.POST.get("description", user.description)
-        # user.photo = request.POST.get("photo", user.photo)
         new_photo = request.FILES.get("photoImage")
         if new_photo:
             # Удаление старого изображения
@@ -78,7 +79,8 @@ def profile_update(request: WSGIRequest):
         # return render(request, 'user/profile_view.html')
         return render(request, "user/update_ok.html", {"user": user})
 
-    return render(request, 'user/profile_update.html')
+    title = Titles.objects.filter(user=user.id).order_by("assignment_date").first()
+    return render(request, 'user/profile_update.html', {'reception_date': title.assignment_date})
 
 
 @login_required()
@@ -107,7 +109,6 @@ def titles_update(request: WSGIRequest):
         user.address = request.POST.get("address", user.address)
         user.birthday = request.POST.get("birthday", user.birthday)
         user.description = request.POST.get("description", user.description)
-        # user.photo = request.POST.get("photo", user.photo)
         new_photo = request.FILES.get("photoImage")
         if new_photo:
             # Удаление старого изображения
@@ -143,6 +144,25 @@ def titles_create(request: WSGIRequest):
 
 def about_profile(request):
     return render(request, "user/profile_ok.html")
+
+
+def teachers_view(request):
+    all_users = User.objects.all()  # Получение всех записей из таблицы этой модели.
+    # all_users = (
+    #     User.objects.all()
+    #     .select_related("user")  # Вытягивание связанных данных из таблицы User в один запрос
+    #     .select_related("titles")  # Вытягивание связанных данных из таблицы User в один запрос
+    #     .annotate(
+    #         # reception_date=Titles.objects.filter(user=user.id).order_by("assignment_date")
+    #         # titles=Titles.objects.filter(user=User.id).order_by("assignment_date")
+    #         titles=Titles.objects.filter(user=User.id).order_by("assignment_date")
+    # )
+    # )
+    context: dict = {
+        "users": all_users[:20],
+
+    }
+    return render(request, "user/teachers.html", context)
 
 
 # test
