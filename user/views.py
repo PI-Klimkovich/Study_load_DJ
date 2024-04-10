@@ -147,7 +147,7 @@ def about_profile(request):
 
 
 def teachers_view(request):
-    all_users = User.objects.all()  # Получение всех записей из таблицы этой модели.
+    all_users = User.objects.all().filter(is_member=True)  # Получение всех записей из таблицы этой модели.
     # all_users = (
     #     User.objects.all()
     #     .select_related("user")  # Вытягивание связанных данных из таблицы User в один запрос
@@ -162,6 +162,7 @@ def teachers_view(request):
         "users": all_users[:20],
 
     }
+    # print(user.titles_set.all().order_by("-assignment").first())
     return render(request, "user/teachers.html", context)
 
 

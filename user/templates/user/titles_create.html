@@ -8,7 +8,7 @@
   <div class='container'>
 
 	<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-      <h1 class="display-4 fw-normal text-body-emphasis">Вы можете дополнить сведения о Вас</h1>
+      <h1 class="display-4 fw-normal text-body-emphasis">Вы можете дополнить сведения о себе</h1>
     </div>
 
     <form action="{% url 'titles-create' %}" method="post" enctype="multipart/form-data">
@@ -21,7 +21,7 @@
           <select name="job_title" class="form-select" id="exampleFormControlInput1" aria-label="Пример выбора по умолчанию">
             <option selected>-</option>
             {% for t in titles.JobTitle.choices %}
-              <option>{{ t.1 }}</option>
+              <option value="{{ t.0 }}">{{ t.1 }}</option>
             {% endfor %}
           </select>
         </div>
@@ -30,7 +30,7 @@
           <select name="academic_degree" class="form-select" id="exampleFormControlInput1" aria-label="Пример выбора по умолчанию">
             <option selected>-</option>
             {% for t in titles.AcademicDegree.choices %}
-              <option>{{ t.1 }}</option>
+              <option value="{{ t.0 }}">{{ t.1 }}</option>
             {% endfor %}
           </select>
         </div>
@@ -39,7 +39,7 @@
           <select name="academic_title" class="form-select" id="exampleFormControlInput1" aria-label="Пример выбора по умолчанию">
             <option selected>-</option>
             {% for t in titles.AcademicTitle.choices %}
-              <option>{{ t.1 }}</option>
+              <option value="{{ t.0 }}">{{ t.1 }}</option>
             {% endfor %}
           </select>
         </div>

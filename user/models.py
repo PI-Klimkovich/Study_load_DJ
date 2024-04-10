@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.utils import timezone
+# from django.utils import timezone
 
 
 def upload_to(instance: "User", filename: str) -> str:
@@ -18,12 +18,13 @@ class User(AbstractUser):
     # last_name = models.CharField(max_length=255, verbose_name="Фамилия")
     # first_name = models.CharField(max_length=255, verbose_name="Имя")
 
-    middle_name = models.CharField(max_length=255, null=True, blank=True, verbose_name="Отчество")
+    middle_name = models.CharField(max_length=255, null=True, blank=True, default='', verbose_name="Отчество")
     phone = models.CharField(max_length=20, null=True, blank=True, verbose_name="Телефон")
     address = models.CharField(max_length=255, null=True, blank=True, verbose_name="Адрес")
     birthday = models.DateField(null=True, blank=True, verbose_name="Дата рождения")
     photo = models.ImageField(upload_to=upload_to, null=True, blank=True, verbose_name="Превью")
     description = models.TextField(null=True, blank=True, verbose_name="Краткие сведения")
+    is_member = models.BooleanField(default=False, verbose_name="Сотрудник")
 
     # surname_f_m = models.CharField(max_length=255, verbose_name="Фамилия И.О.")
     # job_title = models.ForeignKey(JobTitle, on_delete=models.PROTECT, verbose_name="Должность")
@@ -35,7 +36,7 @@ class User(AbstractUser):
         # ordering = ("-created_at",)
 
     def __str__(self):
-        return self.last_name
+        return self.last_name + ' ' + self.first_name
 
 
 class Titles(models.Model):
@@ -43,18 +44,19 @@ class Titles(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, verbose_name="Преподаватель")
 
     class JobTitle(models.TextChoices):
-        head_of_department = ('Head of department', 'Заведующий кафедрой')
-        professor = ('Professor', 'Профессор')
-        docent = ('Docent', 'Доцент')
-        senior_lecturer = ('Senior lecturer', 'Старший преподаватель')
-        teacher = ('Teacher', 'Преподаватель')
-        assistant = ('Assistant', 'Ассистент')
-        trainee_teacher = ('Trainee teacher', 'Преподаватель стажер')
-        engineer = ('Engineer', 'Инженер')
-        technician = ('Technician', 'Техник')
+        head_of_department = ('HD', 'Заведующий кафедрой')
+        professor = ('P', 'Профессор')
+        docent = ('D', 'Доцент')
+        senior_lecturer = ('SL', 'Старший преподаватель')
+        teacher = ('T', 'Преподаватель')
+        assistant = ('A', 'Ассистент')
+        trainee_teacher = ('TT', 'Преподаватель стажер')
+        engineer = ('En', 'Инженер')
+        technician = ('Te', 'Техник')
+        default = ('-', '-')
 
     job_title = models.CharField(
-        max_length=25,
+        max_length=2,
         choices=JobTitle.choices,
         verbose_name="Должность",
         default='-'
@@ -64,6 +66,7 @@ class Titles(models.Model):
         doctor = ('D', 'Доктор')
         candidate_of_sciences = ('C', 'Кандидат')
         master = ('M', 'Магистр')
+        default = ('-', '-')
 
     academic_degree = models.CharField(
         max_length=1,
@@ -76,6 +79,7 @@ class Titles(models.Model):
     class AcademicTitle(models.TextChoices):
         professor = ('P', 'Профессор')
         docent = ('D', 'Доцент')
+        default = ('-', '-')
 
     academic_title = models.CharField(
         max_length=1,

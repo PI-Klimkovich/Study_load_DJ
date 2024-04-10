@@ -21,15 +21,15 @@ class Group(models.Model):
 class LoadInfo(models.Model):
 
     class AcademicYear(models.TextChoices):
-        year_23 = ('2023/2024', '2023/2024')
-        year_24 = ('2024/2025', '2024/2025')
-        year_25 = ('2025/2026', '2025/2026')
-        year_26 = ('2026/2027', '2026/2027')
-        year_27 = ('2027/2028', '2027/2028')
-        year_28 = ('2028/2029', '2028/2029')
-        year_29 = ('2029/2030', '2029/2030')
+        year_23 = ('23/24', '2023/2024')
+        year_24 = ('24/25', '2024/2025')
+        year_25 = ('25/26', '2025/2026')
+        year_26 = ('26/27', '2026/2027')
+        year_27 = ('27/28', '2027/2028')
+        year_28 = ('28/29', '2028/2029')
+        year_29 = ('29/30', '2029/2030')
 
-    academic_year = models.CharField(max_length=9, choices=AcademicYear.choices, verbose_name="Учебный год")
+    academic_year = models.CharField(max_length=5, choices=AcademicYear.choices, verbose_name="Учебный год")
 
     class Faculty(models.TextChoices):
         faculty_01 = ('ATF', 'АТФ')
@@ -77,10 +77,10 @@ class LoadInfo(models.Model):
     faculty = models.CharField(max_length=4, choices=Faculty.choices, verbose_name="Факультет")
 
     class Semester(models.TextChoices):
-        autumn = ('autumn', 'осень')
-        spring = ('spring', 'весна')
+        autumn = ('a', 'осень')
+        spring = ('s', 'весна')
 
-    semester = models.CharField(max_length=6, choices=Semester.choices, verbose_name="Семестр")
+    semester = models.CharField(max_length=1, choices=Semester.choices, verbose_name="Семестр")
 
     class FormStudy(models.TextChoices):
         form_study_01 = ('FT', 'очное')

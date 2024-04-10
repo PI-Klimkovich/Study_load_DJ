@@ -14,6 +14,7 @@ class CustomUserAdmin(UserAdmin):
         'last_name',
         'first_name',
         'middle_name',
+        'is_member',
         'is_active',
         'email',
         'phone',
@@ -22,9 +23,25 @@ class CustomUserAdmin(UserAdmin):
         "is_superuser",
     ]
     search_fields = ['username', 'last_name']
-    actions = ["block_user", "unlock_user"]
-    list_editable = ("is_active",)
+    actions = ["block_user", "unlock_user", "block_member", "unlock_member"]
+    list_editable = ("is_active", 'is_member',)
     readonly_fields = ["preview_image"]
+    list_per_page = 10
+
+    list_filter = [
+        "is_member",
+        "is_active",
+        "is_superuser",
+        "is_staff",
+    ]
+
+    @admin.action(description='Not is member')
+    def block_member(self, request, queryset):
+        queryset.update(is_member=False)
+
+    @admin.action(description='Is member')
+    def unlock_member(self, request, queryset):
+        queryset.update(is_member=True)
 
     @admin.action(description='Block User')
     def block_user(self, request, queryset):
@@ -70,6 +87,7 @@ class CustomUserAdmin(UserAdmin):
                     "is_active",
                     "is_staff",
                     "is_superuser",
+                    "is_member",
                     "groups",
                     "user_permissions",
                 ),
@@ -83,4 +101,21 @@ class CustomUserAdmin(UserAdmin):
 
 @admin.register(Titles)
 class TitlesAdmin(admin.ModelAdmin):
-    list_display = ["assignment_date", "user", "job_title", "academic_degree", "academic_title"]
+    list_display = ["assignment_date", "user", "job_title", "academic_degree", "academic_title", "short_name"]
+    list_per_page = 10
+    # search_fields = ['user', 'assignment_date']
+
+    list_filter = [
+        "user",
+        # "titles_name",
+        # "user__is_member",
+    ]
+
+    @admin.display(description="ФИО преподавателя")
+    def short_name(self, obj: Titles) -> str:
+        return obj.user.last_name + ' ' + obj.user.first_name[0] + '.' + obj.user.middle_name[0] + '.'
+
+    # @admin.display(description="Преподаватели")
+    # def titles_name(self, obj: Titles) -> str:
+    #     if obj.user.is_member:
+    #         return obj.user
