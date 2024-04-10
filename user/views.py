@@ -138,7 +138,7 @@ def titles_create(request: WSGIRequest):
         return render(request, "user/update_ok.html", {"user": request.user})
 
     titles = Titles.objects.filter(user=request.user.id).first()
-    print(titles.JobTitle.choices[1][1])
+    # print(titles.JobTitle.choices[1][1])
     return render(request, 'user/titles_create.html', {"titles": titles})
 
 
@@ -148,21 +148,30 @@ def about_profile(request):
 
 def teachers_view(request):
     all_users = User.objects.all().filter(is_member=True)  # Получение всех записей из таблицы этой модели.
-    # all_users = (
-    #     User.objects.all()
-    #     .select_related("user")  # Вытягивание связанных данных из таблицы User в один запрос
-    #     .select_related("titles")  # Вытягивание связанных данных из таблицы User в один запрос
-    #     .annotate(
-    #         # reception_date=Titles.objects.filter(user=user.id).order_by("assignment_date")
-    #         # titles=Titles.objects.filter(user=User.id).order_by("assignment_date")
-    #         titles=Titles.objects.filter(user=User.id).order_by("assignment_date")
-    # )
-    # )
-    context: dict = {
-        "users": all_users[:20],
+    users_titles = []
+    for user in all_users:
+        titles = user.titles_set.all().order_by("assignment_date")
+        users_titles.append(
+            {
+                'last_name': user.last_name,
+                'first_name': user.first_name,
+                'middle_name': user.middle_name,
+                'email': user.email,
+                'description': user.description,
+                'photo': user.photo,
+                'job_title': titles[len(titles) - 1].get_job_title_display,
+                'academic_degree': titles[len(titles) - 1].get_academic_degree_display,
+                'academic_title': titles[len(titles) - 1].get_academic_title_display,
+                'assignment_date': titles[0].assignment_date,
+                'titles': titles,
+            }
+        )
 
+    print(users_titles[1]['titles'][1].job_title)
+    context: dict = {
+        "users": users_titles,
     }
-    # print(user.titles_set.all().order_by("-assignment").first())
+
     return render(request, "user/teachers.html", context)
 
 

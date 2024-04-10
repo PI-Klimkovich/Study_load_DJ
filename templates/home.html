@@ -57,10 +57,11 @@
             <h2>
               <a class="text-dark text-decoration-none" href="{#}">{{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}</a>
             </h2>
-            <p class="card-text my-3">Занимаемая должность {{ user.job_title }}</p>
-            <p class="card-text my-3">Ученая степень {{ user.academic_degree }}</p>
-            <p class="card-text my-3">Ученое звание {{ user.academic_title }}</p>
+            <p class="card-text my-3">Занимаемая должность: {{ user.job_title }}</p>
+            <p class="card-text my-3">Ученая степень: {{ user.academic_degree }}</p>
+            <p class="card-text my-3">Ученое звание: {{ user.academic_title }}</p>
             <p class="card-text my-3">На кафедре с {{ user.assignment_date }}</p>
+            <p class="card-text my-3">Адрес электронной почты: {{ user.email }}</p>
           </div>
           {% if user.photo %}
             <div class="col-3 p-2">

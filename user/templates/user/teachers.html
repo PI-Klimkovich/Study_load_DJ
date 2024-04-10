@@ -9,7 +9,7 @@
 
 <div class='container'>
   <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-    <h1 class="display-4 fw-normal text-body-emphasis">Наши преподаватели</h1>
+    <h1 class="display-4 fw-normal text-body-emphasis">Преподаватели кафедры</h1>
   </div>
 
   {% if users|length > 0 %}
@@ -18,13 +18,14 @@
         <div class="row">
           <div class="col p-2">
             <h2>
-              <a class="text-dark text-decoration-none" href="{#}">{{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}</a>
+              {{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}
             </h2>
-            <p class="card-text my-3">Занимаемая должность {{ user.birthday }}</p>
-            <p class="card-text my-3">Ученая степень {{ user.birthday }}</p>
-            <p class="card-text my-3">Ученое звание {{ user.birthday }}</p>
-            <p class="card-text my-3">На кафедре с {{ user.birthday }}</p>
+            <p class="card-text my-3">Занимаемая должность: {{ user.job_title }}</p>
+            <p class="card-text my-3">Ученая степень: {{ user.academic_degree }}</p>
+            <p class="card-text my-3">Ученое звание: {{ user.academic_title }}</p>
+            <p class="card-text my-3">На кафедре с {{ user.assignment_date }}</p>
             <p>{{ user.description }}</p>
+            <p class="card-text my-3">Адрес электронной почты: {{ user.email }}</p>
           </div>
           {% if user.photo %}
             <div class="col-3 p-2">
@@ -34,9 +35,27 @@
           {% endif %}
         </div>
 
+        <hr>
+
         <h4>Карьерный рост</h4>
-        {% if titles|length > 0 %}
-          {% for title in titles %}
+        {% if user.titles|length > 0 %}
+
+          <div class="row">
+            <div class="col">
+              <label class="form-label">Должность</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Степень</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Звание</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Дата изменений</label>
+            </div>
+          </div>
+
+          {% for title in user.titles %}
             <div class="row">
               <div class="col">
                 <div class="alert alert-light" role="alert">

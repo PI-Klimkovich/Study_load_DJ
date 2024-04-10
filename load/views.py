@@ -6,25 +6,17 @@ from user.models import User, Titles
 
 def home_page_view(request):
     # all_users = User.objects.all().filter(is_member=True)  # Получение всех записей из таблицы этой модели.
-    all_users = User.objects.prefetch_related().filter(is_member=True)  # Получение всех записей из таблицы этой модели.
-    # all_users = (
-    #     User.objects.all()
-    #     # .select_related("user.id")  # Вытягивание связанных данных из таблицы User в один запрос
-    #     .annotate(
-    #         reception_date=Titles.objects.filter(user=user.id).order_by("assignment_date")
-    #     )
-    # )
+    all_users = User.objects.prefetch_related().filter(is_member=True)
     users_titles = []
     for user in all_users:
-        # books = [titles.job_title for titles in user.titles_set.all().order_by("-assignment_date").first()]
         titles = user.titles_set.all().order_by("-assignment_date").first()
         titles_ = user.titles_set.all().order_by("assignment_date").first()
-        # print(user.last_name, user.first_name, user.middle_name, user.photo.url)
         users_titles.append(
             {
                 'last_name': user.last_name,
                 'first_name': user.first_name,
                 'middle_name': user.middle_name,
+                'email': user.email,
                 'photo': user.photo,
                 'job_title': titles.get_job_title_display,
                 'academic_degree': titles.get_academic_degree_display,
@@ -33,11 +25,11 @@ def home_page_view(request):
             }
         )
 
-    print(users_titles)
+    # print(users_titles)
     context: dict = {
         "users": users_titles,
-
     }
+
     return render(request, "home.html", context)
 
 
