@@ -16,4 +16,5 @@ urlpatterns = [
     path("titles/history", views.titles_history, name="titles-history"),
     path("titles/create", views.titles_create, name="titles-create"),
     path("teachers", views.teachers_view, name="teachers"),
+    path("teacher/<username>", views.teacher_view, name="teacher"),
 ]

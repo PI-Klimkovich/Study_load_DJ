@@ -13,6 +13,7 @@ def home_page_view(request):
         titles_ = user.titles_set.all().order_by("assignment_date").first()
         users_titles.append(
             {
+                'username': user.username,
                 'last_name': user.last_name,
                 'first_name': user.first_name,
                 'middle_name': user.middle_name,

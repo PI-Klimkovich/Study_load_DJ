@@ -10,6 +10,7 @@ from .models import User, Titles
 from .forms import RegisterForm
 
 import os
+import shutil
 
 
 def register_view(request: WSGIRequest):
@@ -68,15 +69,10 @@ def profile_update(request: WSGIRequest):
         if new_photo:
             # Удаление старого изображения
             if user.photo:
-                old_photo_path = os.path.join(settings.MEDIA_ROOT, user.photo.name)
-                if os.path.isfile(old_photo_path):
-                    os.remove(old_photo_path)
+                old_photo_path = os.path.join(settings.MEDIA_ROOT, user.username)
+                shutil.rmtree(old_photo_path)
             user.photo = new_photo
         user.save()
-        print('ok-li')
-        # return HttpResponseRedirect(reverse("profile_ok"))
-        # return HttpResponseRedirect(reverse("profile_view"))
-        # return render(request, 'user/profile_view.html')
         return render(request, "user/update_ok.html", {"user": user})
 
     title = Titles.objects.filter(user=user.id).order_by("assignment_date").first()
@@ -167,12 +163,42 @@ def teachers_view(request):
             }
         )
 
-    print(users_titles[1]['titles'][1].job_title)
+    # print(users_titles[1]['titles'][1].job_title)
     context: dict = {
         "users": users_titles,
     }
 
     return render(request, "user/teachers.html", context)
+
+
+def teacher_view(request: WSGIRequest, username):
+    # print(username)
+    teacher = get_object_or_404(User, username=username)
+    # print(user)
+    # user = User.objects.all().filter(username=username)
+    # print(user)
+    # titles = Titles.objects.filter(user=user.id).order_by("assignment_date")
+
+    titles = teacher.titles_set.all().order_by("assignment_date")
+    user_titles = {
+        'last_name': teacher.last_name,
+        'first_name': teacher.first_name,
+        'middle_name': teacher.middle_name,
+        'email': teacher.email,
+        'description': teacher.description,
+        'photo': teacher.photo,
+        'job_title': titles[len(titles) - 1].get_job_title_display,
+        'academic_degree': titles[len(titles) - 1].get_academic_degree_display,
+        'academic_title': titles[len(titles) - 1].get_academic_title_display,
+        'assignment_date': titles[0].assignment_date,
+        'titles': titles,
+    }
+    # print(user_titles['titles'][1])
+    context: dict = {
+        "teacher": user_titles,
+    }
+
+    return render(request, "user/teacher.html", context)
 
 
 # test

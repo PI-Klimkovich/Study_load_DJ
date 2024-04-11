@@ -55,13 +55,15 @@
         <div class="row">
           <div class="col p-2">
             <h2>
-              <a class="text-dark text-decoration-none" href="{#}">{{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}</a>
+              <a class="text-dark text-decoration-none" href="{% url 'teacher' user.username %}">
+                {{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}
+              </a>
             </h2>
-            <p class="card-text my-3">Занимаемая должность: {{ user.job_title }}</p>
-            <p class="card-text my-3">Ученая степень: {{ user.academic_degree }}</p>
-            <p class="card-text my-3">Ученое звание: {{ user.academic_title }}</p>
+            <p class="card-text my-3">Занимаемая должность: <b>{{ user.job_title }}</b></p>
+            <p class="card-text my-3">Ученая степень: <b>{{ user.academic_degree }}</b></p>
+            <p class="card-text my-3">Ученое звание: <b>{{ user.academic_title }}</b></p>
             <p class="card-text my-3">На кафедре с {{ user.assignment_date }}</p>
-            <p class="card-text my-3">Адрес электронной почты: {{ user.email }}</p>
+            <p class="card-text my-3">Адрес электронной почты: <b>{{ user.email }}</b></p>
           </div>
           {% if user.photo %}
             <div class="col-3 p-2">
