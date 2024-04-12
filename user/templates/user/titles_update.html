@@ -11,27 +11,53 @@
       <h1 class="display-4 fw-normal text-body-emphasis">Вы можете внести изменения</h1>
     </div>
 
-    <form action="{% url 'profile-update' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'titles-update' %}" method="post" enctype="multipart/form-data">
 
       {% csrf_token %}
 
       <div class="row">
+
         <div class="col p-2">
           <label for="exampleFormControlInput1" class="form-label">Должность</label>
-          <input name="job_title" type="text" class="form-control" placeholder="Должность" aria-label="Должность" id="exampleFormControlInput1" value="{{ titles.get_job_title_display }}">
+          <select name="job_title" class="form-select" id="exampleFormControlInput1" aria-label="Пример выбора по умолчанию">
+            <option selected value="{{ titles.job_title }}">{{ titles.get_job_title_display }}</option>
+            {% for t in titles.JobTitle.choices %}
+              {% if titles.job_title != t.0 %}
+                <option value="{{ t.0 }}">{{ t.1 }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
         </div>
+
         <div class="col p-2">
           <label for="exampleFormControlInput1" class="form-label">Степень</label>
-          <input name="academic_degree" type="text" class="form-control" placeholder="Степень" aria-label="Степень" id="exampleFormControlInput1" value="{{ titles.get_academic_degree_display }}">
+          <select name="academic_degree" class="form-select" id="exampleFormControlInput1" aria-label="Пример выбора по умолчанию">
+            <option selected value="{{ titles.academic_degree }}">{{ titles.get_academic_degree_display }}</option>
+            {% for t in titles.AcademicDegree.choices %}
+              {% if titles.academic_degree != t.0 %}
+                <option value="{{ t.0 }}">{{ t.1 }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
         </div>
+
         <div class="col p-2">
           <label for="exampleFormControlInput1" class="form-label">Звание</label>
-          <input name="academic_title" type="text" class="form-control" placeholder="Звание" aria-label="Звание" id="exampleFormControlInput1" value="{{ titles.get_academic_title_display }}">
+          <select name="academic_title" class="form-select" id="exampleFormControlInput1" aria-label="Пример выбора по умолчанию">
+            <option selected value="{{ titles.academic_title }}">{{ titles.get_academic_title_display }}</option>
+            {% for t in titles.AcademicTitle.choices %}
+              {% if titles.academic_title != t.0 %}
+                <option value="{{ t.0 }}">{{ t.1 }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
         </div>
+
         <div class="col p-2">
           <label for="startDate" class="form-label">Дата изменений</label>
           <input name="assignment_date" type="date" class="form-control" id="startDate" value="{{ titles.assignment_date|date:'Y-m-d' }}">
         </div>
+
       </div>
 
       <button type="submit" class="btn btn-outline-primary">Изменить</button>

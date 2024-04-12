@@ -96,24 +96,14 @@ def titles_update(request: WSGIRequest):
         return HttpResponseForbidden("У Вас нет разрешения на редактирование объекта")
 
     if request.method == "POST":
-
-        user = User.objects.get(username=user.username)
-        user.last_name = request.POST.get("last_name", user.last_name)
-        user.first_name = request.POST.get("first_name", user.first_name)
-        user.middle_name = request.POST.get("middle_name", user.middle_name)
-        user.phone = request.POST.get("phone", user.phone)
-        user.address = request.POST.get("address", user.address)
-        user.birthday = request.POST.get("birthday", user.birthday)
-        user.description = request.POST.get("description", user.description)
-        new_photo = request.FILES.get("photoImage")
-        if new_photo:
-            # Удаление старого изображения
-            if user.photo:
-                old_photo_path = os.path.join(settings.MEDIA_ROOT, user.photo.name)
-                if os.path.isfile(old_photo_path):
-                    os.remove(old_photo_path)
-            user.photo = new_photo
-        user.save()
+        titles = Titles.objects.get(id=titles.id)
+        print('-=-', titles)
+        titles.assignment_date = request.POST.get("assignment_date", titles.assignment_date)
+        titles.job_title = request.POST.get("job_title", titles.job_title)
+        titles.academic_degree = request.POST.get("academic_degree", titles.academic_degree)
+        titles.academic_title = request.POST.get("academic_title", titles.academic_title)
+        titles.save()
+        print('++', titles)
         return render(request, "user/update_ok.html", {"user": user})
 
     return render(request, 'user/titles_update.html', {'titles': titles})
