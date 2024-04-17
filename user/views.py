@@ -9,6 +9,9 @@ from django.conf import settings
 from .models import User, Titles
 from .forms import RegisterForm
 
+# import telegram_send
+from notice.bot import telegram_bot_send
+
 import os
 import shutil
 
@@ -37,6 +40,14 @@ def profile_view(request: WSGIRequest):
     # print(user, user.username, request.user, request.user.username)
     if user != request.user:
         return HttpResponseForbidden("У Вас нет разрешения на редактирование объекта")
+
+    telegram_bot_send(
+        f"Просмотр профиля - "
+        f"\"{request.user.last_name} {request.user.first_name[0]}.{request.user.middle_name[0]}.\""
+    )
+
+    # telegram_send.send(messages=["Hello world"]) #!!!!!!
+
     # print(user.id)
     titles = Titles.objects.filter(user=user.id).order_by("-assignment_date").first()
     title = Titles.objects.filter(user=user.id).order_by("assignment_date").first()
@@ -50,9 +61,7 @@ def profile_view(request: WSGIRequest):
 
 @login_required
 def profile_update(request: WSGIRequest):
-    print(request.user, request.user.username)
     user = get_object_or_404(User, username=request.user.username)
-    print(user, user.username, request.user, request.user.username)
     if user != request.user:
         return HttpResponseForbidden("У Вас нет разрешения на редактирование объекта")
 
@@ -83,7 +92,6 @@ def profile_update(request: WSGIRequest):
 def titles_history(request: WSGIRequest):
     user = get_object_or_404(User, username=request.user.username)
     titles = Titles.objects.filter(user=user.id).order_by("assignment_date")
-    print(titles)
     return render(request, 'user/titles_history.html', {"titles": titles})
 
 
@@ -97,13 +105,13 @@ def titles_update(request: WSGIRequest):
 
     if request.method == "POST":
         titles = Titles.objects.get(id=titles.id)
-        print('-=-', titles)
+        # print('-=-', titles)
         titles.assignment_date = request.POST.get("assignment_date", titles.assignment_date)
         titles.job_title = request.POST.get("job_title", titles.job_title)
         titles.academic_degree = request.POST.get("academic_degree", titles.academic_degree)
         titles.academic_title = request.POST.get("academic_title", titles.academic_title)
         titles.save()
-        print('++', titles)
+
         return render(request, "user/update_ok.html", {"user": user})
 
     return render(request, 'user/titles_update.html', {'titles': titles})
@@ -111,7 +119,6 @@ def titles_update(request: WSGIRequest):
 
 @login_required
 def titles_create(request: WSGIRequest):
-    print(request.method)
     if request.method == "POST":
         titles = Titles.objects.create(
             job_title=request.POST["job_title"],
@@ -120,11 +127,9 @@ def titles_create(request: WSGIRequest):
             assignment_date=request.POST["assignment_date"],
             user=request.user,
         )
-        print(titles)
         return render(request, "user/update_ok.html", {"user": request.user})
 
     titles = Titles.objects.filter(user=request.user.id).first()
-    # print(titles.JobTitle.choices[1][1])
     return render(request, 'user/titles_create.html', {"titles": titles})
 
 
@@ -162,14 +167,9 @@ def teachers_view(request):
 
 
 def teacher_view(request: WSGIRequest, username):
-    # print(username)
     teacher = get_object_or_404(User, username=username)
-    # print(user)
-    # user = User.objects.all().filter(username=username)
-    # print(user)
-    # titles = Titles.objects.filter(user=user.id).order_by("assignment_date")
-
     titles = teacher.titles_set.all().order_by("assignment_date")
+
     user_titles = {
         'last_name': teacher.last_name,
         'first_name': teacher.first_name,
@@ -183,7 +183,7 @@ def teacher_view(request: WSGIRequest, username):
         'assignment_date': titles[0].assignment_date,
         'titles': titles,
     }
-    # print(user_titles['titles'][1])
+
     context: dict = {
         "teacher": user_titles,
     }

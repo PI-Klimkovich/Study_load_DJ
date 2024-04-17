@@ -107,7 +107,7 @@ class TitlesAdmin(admin.ModelAdmin):
 
     list_filter = [
         "user",
-        # "titles_name",
+        # "teachers_name",
         # "user__is_member",
     ]
 
@@ -115,7 +115,7 @@ class TitlesAdmin(admin.ModelAdmin):
     def short_name(self, obj: Titles) -> str:
         return obj.user.last_name + ' ' + obj.user.first_name[0] + '.' + obj.user.middle_name[0] + '.'
 
-    # @admin.display(description="Преподаватели")
-    # def titles_name(self, obj: Titles) -> str:
-    #     if obj.user.is_member:
-    #         return obj.user
+    @admin.display(description="Преподаватели")
+    def teachers_name(self, obj: Titles) -> str:
+        if obj.user.is_member:
+            return obj.user

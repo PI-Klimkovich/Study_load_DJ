@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Update notice
+{% endblock %}
+
+{% block content %}
+  <div class='container'>
+
+	<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+      <h1 class="display-4 fw-normal text-body-emphasis">Редактирование объявления</h1>
+    </div>
+
+    <form action="{% url 'update' notice_uuid=notice.uuid %}" method="post" enctype="multipart/form-data">
+
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Текст объявления</label>
+        <input name="message" type="text" class="form-control" id="exampleFormControlInput1" value="{{ notice.message }}">
+      </div>
+
+      <!-- Блок кнопки -->
+      <button type="submit" class="btn btn-outline-primary">Изменить</button>
+
+    </form>
+
+  </div>
+{% endblock %}

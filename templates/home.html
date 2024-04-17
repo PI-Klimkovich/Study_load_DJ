@@ -22,7 +22,9 @@
           <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">of the department</h1>
           <p class="lead">Welcome | You are logged in</p>
           <p class="lead">Now you have access to unlimited application capabilities</p>
-          <a href="{% url 'about' %}" class="btn btn-outline-success btn-lg px-4 me-md-2">Создать заметку | Create a note</a>
+          {% if user.is_member %}
+            <a href="{% url 'create' %}" class="btn btn-outline-success btn-lg px-4 me-md-2">Создать объявление | Create a notice</a>
+          {% endif %}
         {% else %}
           <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Познакомься</h1>
           <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">с составом кафедры</h1>

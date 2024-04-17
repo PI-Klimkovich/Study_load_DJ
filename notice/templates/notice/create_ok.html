@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Good create
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+  <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <p class="display-6 fw-normal text-body-emphasis">Объявление создано и разослано</p>
+  </div>
+  <h4 class="link-body-emphasis mb-2">
+    <a class="text-primary-emphasis text-decoration-none" href="{% url 'notice' notice.uuid %}">{{ notice.message }}</a>
+  </h4>
+  <div class="flex-lg-row-reverse align-items-center py-5">
+    <a href="{% url 'create' %}" class="btn btn-outline-success px-4 me-md-2">Создать объявление</a>
+  </div>
+</div>
+{% endblock %}

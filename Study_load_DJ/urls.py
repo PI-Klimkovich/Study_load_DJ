@@ -34,6 +34,7 @@ urlpatterns = [
 
     path('user/', include("user.urls")),
     path('load/', include("load.urls")),
+    path('notice/', include("notice.urls")),
     path('distribution/', include("distribution.urls")),
     re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
     # path("__debug__/", include("debug_toolbar.urls")),

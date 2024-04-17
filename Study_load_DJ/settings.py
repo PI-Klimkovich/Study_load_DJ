@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user',
     'load',
     'distribution',
+    'notice'
 ]
 
 AUTH_USER_MODEL = "user.User"

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	{{ notice.message }}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="link-body-emphasis mb-4">{{ notice.message }}</h2>
+    <p class="blog-post-meta">Создано: {{ notice.created_at }}</p>
+    {% if notice.mod_time %}
+      <p class="blog-post-meta">Обновлено: {{ notice.mod_time }}</p>
+    {% endif %}
+
+    <hr>
+
+    <p><b>Автор: {{ notice.user }}</b></p>
+
+    {% if user.is_authenticated and notice.user.username == user.username or user.is_anonymous and notice.user.username == None %}
+
+      <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <a href="{% url 'update' notice.uuid %}" class="btn btn-warning">Редактировать</a>
+        <form action="{% url 'delete' notice.uuid %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+      </div>
+
+    {% endif %}
+
+  </div>
+{% endblock %}

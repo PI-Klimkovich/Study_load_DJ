@@ -8,12 +8,11 @@
   <div class='container'>
 
     <div class="text-center">
-      <h2 class="display-5 link-body-emphasis mb-1">Ваш профиль, {{ user.first_name }} {{ user.middle_name }}</h2>
+      <h2 class="display-5 link-body-emphasis mb-4">Ваш профиль, {{ user.first_name }} {{ user.middle_name }}</h2>
+      <a href="{% url 'profile-update' %}" class="btn btn-outline-primary">Редактировать</a>
     </div>
-
-    <a href="{% url 'profile-update' %}" class="btn btn-outline-primary">Редактировать</a>
-
     <hr>
+
     {#  Photo  #}
     {% if user.photo %}
       <div class="d-flex justify-content-center">
