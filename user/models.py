@@ -50,7 +50,7 @@ class Titles(models.Model):
         senior_lecturer = ('SL', 'Старший преподаватель')
         teacher = ('T', 'Преподаватель')
         assistant = ('A', 'Ассистент')
-        trainee_teacher = ('TT', 'Преподаватель стажер')
+        trainee_teacher = ('TT', 'Преподаватель-стажер')
         engineer = ('En', 'Инженер')
         technician = ('Te', 'Техник')
         default = ('-', '-')

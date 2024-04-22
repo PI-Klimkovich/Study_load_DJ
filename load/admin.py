@@ -23,9 +23,6 @@ class LoadInfoAdmin(admin.ModelAdmin):
     search_fields = ["discipline", "group"]
     # date_hierarchy = "on_date"
 
-    # Действия
-    # actions = ["title_up"]
-
     # Поля, которые не имеют большого кол-ва уникальных вариантов!
     list_filter = [
         "academic_year",
@@ -50,33 +47,11 @@ class LoadInfoAdmin(admin.ModelAdmin):
 #             .select_related("academic_year")  # Вытягивание связанных данных из таблицы User в один запрос
 #             .prefetch_related("tags")  # Вытягивание связанных данных из таблицы Tag в отдельные запросы
 #         )
-#
-#     @admin.action(description="Upper Title")
-#     def title_up(self, form, queryset: QuerySet[LoadInfo]):
-#         queryset.update(title=Upper(F("title")))
-#
-#     @admin.display(description="Содержимое")
-#     def short_content(self, obj: LoadInfo) -> str:
-#         return obj.content[:50]+"..."
-#
-#     @admin.display(description="Теги")
-#     def tags_function(self, obj: LoadInfo) -> str:
-#         tags = list(obj.tags.all())
-#         text = ""
-#         for tag in tags:
-#             text += f"<span style=\"color: blue;\">{tag}</span><br>"
-#         return mark_safe(text)
-#
-#     @admin.display(description="IMG")
-#     def preview_image(self, obj: LoadInfo) -> str:
-#         if obj.image:
-#             return mark_safe(f'<img src="{obj.image.url}" height="100" />')
-#         return ")("
 
 
 @admin.register(OnDate)
 class OnDateAdmin(admin.ModelAdmin):
-    list_display = ["on_date"]
+    list_display = ["on_date", "note"]
 
 
 @admin.register(Load)
@@ -100,8 +75,8 @@ class LoadAdmin(admin.ModelAdmin):
         # "postgraduate_studies",
         "note",
     ]
+    readonly_fields = ["total"]
     # date_hierarchy = "on_date"
-    print(1, OnDate.on_date)
 
     list_filter = [
         "load_info__academic_year",
@@ -109,3 +84,24 @@ class LoadAdmin(admin.ModelAdmin):
         "load_info__semester",
         "load_info__form_study",
     ]
+
+    fieldsets = (
+        # 1  tuple(None, dict)
+        (None, {"fields": ("load_info", "on_date",)}),
+
+        # 2  tuple(str, dict)
+        (
+            "Детализация",
+            {
+                "fields": (
+                    ("lectures", "laboratory", "practical",),
+                    ("course_work", "calculation_and_graphic_works", "control",),
+                    ("consultations", "tests", "exams",),
+                    ("diploma", "state_exam",),
+                    ("practice", "postgraduate_studies", "total",),
+                    ("note",),
+                ),
+            },
+        ),
+    )
+

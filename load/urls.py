@@ -2,7 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # path('create_ok', views.about_create, name='create_ok'),
+    path('home', views.load_home_view, name='load_home'),
+    path('export', views.export_on_excel, name="export")
     # path('create', views.create_note_view, name='create'),
     # path('tags', views.show_tags_view, name='all_tags'),
     # path('tag_notes', views.show_tags_view, name='tag_notes'),

@@ -119,6 +119,7 @@ class LoadInfo(models.Model):
 
 class OnDate(models.Model):
     on_date = models.DateField(unique=True, verbose_name="Дата выдачи/уточнения", null=False)
+    note = models.CharField(max_length=255, null=True, blank=True, verbose_name="Примечание")
     objects = models.Manager()  # Он подключается к базе.
 
     def __str__(self):
@@ -128,9 +129,6 @@ class OnDate(models.Model):
         else:
             str_date = self.on_date.strftime(date_format)
         return str_date
-
-#     def __str__(self):
-#         return self.on_date
 
 
 class Load(models.Model):

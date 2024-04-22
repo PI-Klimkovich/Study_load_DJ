@@ -1,6 +1,9 @@
 from django.shortcuts import render
+from django.core.handlers.wsgi import WSGIRequest
+from django.contrib.auth.decorators import login_required
+import pandas as pd
 
-# from .models import Load
+from .models import Load
 from user.models import User, Titles
 
 
@@ -36,3 +39,51 @@ def home_page_view(request):
 
 def about_view(request):
     return render(request, "about.html")
+
+
+def load_home_view(request):
+    return render(request, "load/load_home.html")
+
+
+@login_required
+def export_on_excel(request: WSGIRequest):
+    print(request.user.username)
+    user = User.objects.filter(username=request.user.username)
+    data = user.values("username", "last_name", "first_name", "middle_name")
+    # data = user.values()
+    print(data)
+    data = pd.DataFrame(data)
+    print(data)
+    data.to_excel('d:/data1.xlsx', index=False)
+    return render(request, "load/load_home.html")
+
+    # create_data_for_excel(request)
+    # file_path = 'data.xlsx'
+    # file_name = os.path.basename(file_path)
+
+    # try:
+    #     with open(file_path, 'rb') as file:
+    #         response = HttpResponse(file, content_type='application/vnd.ms-excel')
+    #         response['Content-Disposition'] = 'attachment; filename=' + file_name
+    #         os.remove(file_path)  # Удаляем файл после отправки
+    #         return response
+    # except FileNotFoundError:
+    #     return HttpResponse("Файл не найден", status=404)
+
+
+def create_data_for_excel(request: WSGIRequest):
+    data = {}
+    user = (User.objects.filter(username=request.user.username)
+            # .select_related("user")
+            # .prefetch_related("load_info")
+            )
+
+    # data = list(user.values("load_info__id", "load__lectures", "load__laboratory", "load__practical"))
+    data = user.values("username", "last_name", "first_name", "middle_name")
+    print(data)
+    # data = list(user.values("username", "last_name", "first_name", "middle_name"))
+    data = pd.DataFrame(data)
+    print(data)
+    # data.to_excel('d:/data1.xlsx', index=False)
+    # df['date'] = df['date'].dt.tz_localize(None)
+    # df.to_excel('data.xlsx', index=False)
