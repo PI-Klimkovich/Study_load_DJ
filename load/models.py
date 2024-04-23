@@ -227,3 +227,6 @@ class Load(models.Model):
     class Meta:
         db_table = "load"
         ordering = ("on_date", "id",)
+
+    def __str__(self):
+        return self.load_info.__str__() + '= ' + self.on_date.__str__()

@@ -3,8 +3,8 @@ from . import views
 
 urlpatterns = [
     path('home', views.load_home_view, name='load_home'),
-    path('export', views.export_on_excel, name="export")
-    # path('create', views.create_note_view, name='create'),
+    path('export', views.export_on_excel, name="export"),
+    path('load', views.load_on_excel, name='load'),
     # path('tags', views.show_tags_view, name='all_tags'),
     # path('tag_notes', views.show_tags_view, name='tag_notes'),
     # path('<uuid:note_uuid>', views.show_note_view, name='note'),

@@ -99,23 +99,33 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
+# admin.site.unregister(User)
+
+
+class IsMemberUserFilter(admin.SimpleListFilter):
+    title = "Преподаватели"
+    parameter_name = "is_member"
+
+    def lookups(self, request, model_admin):
+        qs = User.objects.filter(is_member=True)
+        return (
+            (u.username, u.__str__) for u in qs
+        )
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(user__username=self.value())
+        return queryset
+
+
 @admin.register(Titles)
 class TitlesAdmin(admin.ModelAdmin):
     list_display = ["assignment_date", "user", "job_title", "academic_degree", "academic_title", "short_name"]
     list_per_page = 10
     # search_fields = ['user', 'assignment_date']
 
-    list_filter = [
-        "user",
-        # "teachers_name",
-        # "user__is_member",
-    ]
+    list_filter = [IsMemberUserFilter]
 
     @admin.display(description="ФИО преподавателя")
     def short_name(self, obj: Titles) -> str:
         return obj.user.last_name + ' ' + obj.user.first_name[0] + '.' + obj.user.middle_name[0] + '.'
-
-    @admin.display(description="Преподаватели")
-    def teachers_name(self, obj: Titles) -> str:
-        if obj.user.is_member:
-            return obj.user

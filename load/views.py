@@ -46,14 +46,51 @@ def load_home_view(request):
 
 
 @login_required
+def load_on_excel(request: WSGIRequest):
+    # print(request.user.username)
+    load = Load.objects.filter(on_date=2)
+    data = load.values(
+        "load_info__academic_year",
+        "on_date__on_date",
+        "load_info__faculty",
+        "load_info__semester",
+        "load_info__form_study",
+        "load_info__discipline",
+        "load_info__course_study",
+        "load_info__group",
+        "lectures",
+        "laboratory",
+        "practical",
+        "course_work",
+        "calculation_and_graphic_works",
+        "control",
+        "consultations",
+        "tests",
+        "exams",
+        "diploma",
+        "state_exam",
+        "practice",
+        "postgraduate_studies",
+        "total",
+        "note",
+    )
+    # data = user.values()
+    # print(data)
+    data = pd.DataFrame(data)
+    # print(data)
+    data.to_excel('d:/data1.xlsx', index=False)
+    return render(request, "load/load_home.html")
+
+
+@login_required
 def export_on_excel(request: WSGIRequest):
-    print(request.user.username)
+    # print(request.user.username)
     user = User.objects.filter(username=request.user.username)
     data = user.values("username", "last_name", "first_name", "middle_name")
     # data = user.values()
-    print(data)
+    # print(data)
     data = pd.DataFrame(data)
-    print(data)
+    # print(data)
     data.to_excel('d:/data1.xlsx', index=False)
     return render(request, "load/load_home.html")
 
@@ -71,19 +108,19 @@ def export_on_excel(request: WSGIRequest):
     #     return HttpResponse("Файл не найден", status=404)
 
 
-def create_data_for_excel(request: WSGIRequest):
-    data = {}
-    user = (User.objects.filter(username=request.user.username)
-            # .select_related("user")
-            # .prefetch_related("load_info")
-            )
-
-    # data = list(user.values("load_info__id", "load__lectures", "load__laboratory", "load__practical"))
-    data = user.values("username", "last_name", "first_name", "middle_name")
-    print(data)
-    # data = list(user.values("username", "last_name", "first_name", "middle_name"))
-    data = pd.DataFrame(data)
-    print(data)
-    # data.to_excel('d:/data1.xlsx', index=False)
-    # df['date'] = df['date'].dt.tz_localize(None)
-    # df.to_excel('data.xlsx', index=False)
+# def create_data_for_excel(request: WSGIRequest):
+#     data = {}
+#     user = (User.objects.filter(username=request.user.username)
+#             # .select_related("user")
+#             # .prefetch_related("load_info")
+#             )
+#
+#     # data = list(user.values("load_info__id", "load__lectures", "load__laboratory", "load__practical"))
+#     data = user.values("username", "last_name", "first_name", "middle_name")
+#     print(data)
+#     # data = list(user.values("username", "last_name", "first_name", "middle_name"))
+#     data = pd.DataFrame(data)
+#     print(data)
+#     # data.to_excel('d:/data1.xlsx', index=False)
+#     # df['date'] = df['date'].dt.tz_localize(None)
+#     # df.to_excel('data.xlsx', index=False)
