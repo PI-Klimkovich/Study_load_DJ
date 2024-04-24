@@ -100,3 +100,21 @@ class Distribution(models.Model):
     class Meta:
         db_table = "distribution"
         # ordering = ("-on_date",)
+
+    def save(self):
+        self.total = (
+                self.lectures
+                + self.laboratory
+                + self.practical
+                + self.course_work
+                + self.calculation_and_graphic_works
+                + self.control
+                + self.consultations
+                + self.tests
+                + self.exams
+                + self.diploma
+                + self.state_exam
+                + self.practice
+                + self.postgraduate_studies
+        )
+        return super().save()

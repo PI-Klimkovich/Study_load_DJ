@@ -230,3 +230,21 @@ class Load(models.Model):
 
     def __str__(self):
         return self.load_info.__str__() + '= ' + self.on_date.__str__()
+
+    def save(self):
+        self.total = (
+                self.lectures
+                + self.laboratory
+                + self.practical
+                + self.course_work
+                + self.calculation_and_graphic_works
+                + self.control
+                + self.consultations
+                + self.tests
+                + self.exams
+                + self.diploma
+                + self.state_exam
+                + self.practice
+                + self.postgraduate_studies
+        )
+        return super().save()

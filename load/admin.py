@@ -1,9 +1,4 @@
 from django.contrib import admin
-
-# from django.utils.safestring import mark_safe
-# from django.db.models import QuerySet, F
-# from django.db.models.functions import Upper
-
 from .models import Load, LoadInfo, Discipline, Group, OnDate
 
 
@@ -21,32 +16,16 @@ class GroupAdmin(admin.ModelAdmin):
 class LoadInfoAdmin(admin.ModelAdmin):
     list_display = ["academic_year", "faculty", "semester", "form_study", "discipline", "course_study", "group"]
     search_fields = ["discipline", "group"]
-    # date_hierarchy = "on_date"
 
-    # Поля, которые не имеют большого кол-ва уникальных вариантов!
     list_filter = [
         "academic_year",
         "semester",
         "form_study",
-        # "load_info__semester"
     ]
 
+    # date_hierarchy = "on_date"
     # filter_horizontal = ["form_study"]
-
     # readonly_fields = ["preview_image"]
-
-    # fieldsets = (
-    #     # 1
-    #     (None, {"fields": ("academic_year", "faculty", "semester", "form_study", "discipline", "course_study", "group")}),
-    #     ("Содержимое", {"fields": ("academic_year",)})
-    # )
-#
-#     def get_queryset(self, request):
-#         return (
-#             LoadInfo.objects.all()
-#             .select_related("academic_year")  # Вытягивание связанных данных из таблицы User в один запрос
-#             .prefetch_related("tags")  # Вытягивание связанных данных из таблицы Tag в отдельные запросы
-#         )
 
 
 @admin.register(OnDate)
@@ -76,11 +55,11 @@ class LoadAdmin(admin.ModelAdmin):
         "note",
     ]
     readonly_fields = ["total"]
-    # date_hierarchy = "on_date"
+    date_hierarchy = "on_date__on_date"
 
     list_filter = [
         "load_info__academic_year",
-        "on_date",
+        # "on_date",
         "load_info__semester",
         "load_info__form_study",
     ]
@@ -104,4 +83,3 @@ class LoadAdmin(admin.ModelAdmin):
             },
         ),
     )
-
