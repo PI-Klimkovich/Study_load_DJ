@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .bot import telegram_bot_send
+from django.views.decorators.cache import cache_page
 
 from .models import Notice
 from user.models import User
@@ -13,7 +14,7 @@ from user.models import User
 def notices_page_view(request):
     all_notices = (Notice.objects.all()
                    .select_related("user")  # Вытягивание связанных данных из таблицы User в один запрос
-                   .order_by("-created_at")  # Сортировка результатов по убыванию по created_at
+                   .order_by("-mod_time")  # Сортировка результатов по убыванию по created_at
                    )
 
     context: dict = {
@@ -92,6 +93,7 @@ def update_notice_view(request: WSGIRequest, notice_uuid):
 
 
 # заметки выбранного пользователя
+@cache_page(60 * 5)
 def user_notices_view(request: WSGIRequest, username):
     # print(username)
     user = User.objects.get(username=username)

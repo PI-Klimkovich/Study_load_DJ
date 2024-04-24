@@ -1,5 +1,6 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
+from django.views.decorators.cache import cache_page
 
 from . import views
 
@@ -13,8 +14,8 @@ urlpatterns = [
     path("profile/", views.profile_view, name="profile-view"),
     path("profile/update", views.profile_update, name="profile-update"),
     path("titles/update", views.titles_update, name="titles-update"),
-    path("titles/history", views.titles_history, name="titles-history"),
+    path("titles/history", cache_page(60 * 15)(views.titles_history), name="titles-history"),
     path("titles/create", views.titles_create, name="titles-create"),
-    path("teachers", views.teachers_view, name="teachers"),
+    path("teachers", cache_page(60 * 15)(views.teachers_view), name="teachers"),
     path("teacher/<username>", views.teacher_view, name="teacher"),
 ]

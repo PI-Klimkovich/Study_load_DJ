@@ -48,16 +48,44 @@ def load_home_view(request):
 @login_required
 def load_on_excel(request: WSGIRequest):
     # print(request.user.username)
-    load = Load.objects.filter(on_date=2)
+
+    header = [
+        "Учебный год",
+        "Дата изменения",
+        "Факультет",
+        "Семестр",
+        "Форма обучения",
+        "Дисциплина",
+        "Курс",
+        "Поток",
+        "Лекции",
+        "Лабораторные",
+        "Практические",
+        "КП КР",
+        "РГР",
+        "Контрольные",
+        "Консультации",
+        "Зачеты",
+        "Экзамены",
+        "ДП",
+        "ГЭК",
+        "Практика",
+        "Аспирантура",
+        "Итого",
+        "Примечания",
+    ]
+
+    load = Load.objects.filter(on_date=1).order_by("load_info__semester", "load_info__form_study")
     data = load.values(
+        # get_verbose_years("load_info__academic_year"),
         "load_info__academic_year",
         "on_date__on_date",
         "load_info__faculty",
         "load_info__semester",
         "load_info__form_study",
-        "load_info__discipline",
+        "load_info__discipline__name",
         "load_info__course_study",
-        "load_info__group",
+        "load_info__group__name",
         "lectures",
         "laboratory",
         "practical",
@@ -76,8 +104,37 @@ def load_on_excel(request: WSGIRequest):
     )
     # data = user.values()
     # print(data)
-    data = pd.DataFrame(data)
-    # print(data)
+    data = pd.DataFrame(
+        data,
+        # columns=[
+        #     "Учебный год",
+        #     "Дата изменения",
+        #     "Факультет",
+        #     "Семестр",
+        #     "Форма обучения",
+        #     "Дисциплина",
+        #     "Курс",
+        #     "Поток",
+        #     "Лекции",
+        #     "Лабораторные",
+        #     "Практические",
+        #     "КП КР",
+        #     "РГР",
+        #     "Контрольные",
+        #     "Консультации",
+        #     "Зачеты",
+        #     "Экзамены",
+        #     "ДП",
+        #     "ГЭК",
+        #     "Практика",
+        #     "Аспирантура",
+        #     "Итого",
+        #     "Примечания",
+        # ]
+    )
+
+    # data.append(header, ignore_index=True)
+    print(data)
     data.to_excel('d:/data1.xlsx', index=False)
     return render(request, "load/load_home.html")
 
@@ -124,3 +181,15 @@ def export_on_excel(request: WSGIRequest):
 #     # data.to_excel('d:/data1.xlsx', index=False)
 #     # df['date'] = df['date'].dt.tz_localize(None)
 #     # df.to_excel('data.xlsx', index=False)
+
+
+def get_verbose_years(years: str) -> str:
+    return {
+        '23/24': '2023/2024',
+        '24/25': '2024/2025',
+        '25/26': '2025/2026',
+        '26/27': '2026/2027',
+        '27/28': '2027/2028',
+        '28/29': '2028/2029',
+        '29/30': '2029/2030',
+    }[years]

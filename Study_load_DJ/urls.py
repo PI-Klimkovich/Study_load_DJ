@@ -19,6 +19,7 @@ from django.urls import path, include, re_path
 from load.views import home_page_view, about_view
 from django.conf.urls.static import serve
 from django.conf import settings
+from django.views.decorators.cache import cache_page
 
 # from load.views import filter_notes_view
 from user import views
@@ -28,8 +29,8 @@ urlpatterns = [
     path('accounts/', include("django.contrib.auth.urls")),
     # path('accounts/register', views.register_view, name="register"),
 
-    path('', home_page_view, name='home'),
-    path('about', about_view, name='about'),
+    path('', cache_page(60 * 15)(home_page_view), name='home'),
+    path('about', cache_page(60 * 15)(about_view), name='about'),
     # path("filter", filter_notes_view, name="filter-notes"),
 
     path('user/', include("user.urls")),
