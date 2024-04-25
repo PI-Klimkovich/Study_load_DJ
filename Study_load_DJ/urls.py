@@ -24,6 +24,11 @@ from django.views.decorators.cache import cache_page
 # from load.views import filter_notes_view
 from user import views
 
+api_v1 = [
+    path('', include(('api.users.urls', 'users'), namespace='users')),
+]
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include("django.contrib.auth.urls")),
@@ -41,4 +46,5 @@ urlpatterns = [
     # path("__debug__/", include("debug_toolbar.urls")),
 
     # path('api/notes/', include('notes.api.urls')),
+    path('api/v1/', (api_v1, 'api', 'api')),
 ]
