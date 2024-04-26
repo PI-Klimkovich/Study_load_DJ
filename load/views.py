@@ -148,7 +148,7 @@ def export_on_excel(request: WSGIRequest):
     # print(data)
     data = pd.DataFrame(data)
     # print(data)
-    data.to_excel('d:/data1.xlsx', index=False)
+    data.to_excel('d:/data_00.xlsx', index=False)
     return render(request, "load/load_home.html")
 
     # create_data_for_excel(request)

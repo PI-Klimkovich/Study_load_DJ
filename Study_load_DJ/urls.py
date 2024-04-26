@@ -26,13 +26,14 @@ from user import views
 
 api_v1 = [
     path('', include(('api.users.urls', 'users'), namespace='users')),
+    path('', include(('api.notice.urls', 'notice'), namespace='notice')),
+    path('', include(('api.load.urls', 'load'), namespace='load')),
+    path('', include(('api.distribution.urls', 'distribution'), namespace='distribution')),
 ]
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include("django.contrib.auth.urls")),
-    # path('accounts/register', views.register_view, name="register"),
 
     path('', cache_page(60 * 15)(home_page_view), name='home'),
     path('about', cache_page(60 * 15)(about_view), name='about'),
@@ -45,6 +46,5 @@ urlpatterns = [
     re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
     # path("__debug__/", include("debug_toolbar.urls")),
 
-    # path('api/notes/', include('notes.api.urls')),
     path('api/v1/', (api_v1, 'api', 'api')),
 ]

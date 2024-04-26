@@ -13,14 +13,15 @@ class UserModelSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             'id',
-            'middle_name',
-            'phone',
-            'address',
-            'birthday',
-            'email',
-            'first_name',
             'username',
             'last_name',
+            'first_name',
+            'middle_name',
+            'birthday',
+            'phone',
+            'address',
+            'email',
+            'photo',
             'description',
             'is_member',
         )

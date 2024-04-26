@@ -1,34 +1,16 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 
-from user.models import User
+from notice.models import Notice
 
 
-class UserModelSerializer(serializers.ModelSerializer):
-    # middle_name = serializers.CharField(required=True)  # переопределение поля на обязательное
-    # phone = serializers.CharField(required=True)  # переопределение поля на обязательное
-    # email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())], required=True)
+class NoticeModelSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = User
+        model = Notice
         fields = (
-            'id',
-            'username',
-            'last_name',
-            'first_name',
-            'middle_name',
-            'birthday',
-
-            'email',
-            'phone',
-            'address',
-            'description',
-
-            'is_member',
+            'uuid',
+            'message',
+            'created_at',
+            'mod_time',
+            'user',
         )
-
-    # def validate_phone(self, value):
-    #     # собственная валидация поля: метод должен начинаться с validate_ + поле
-    #     if not value.startswith('+'):
-    #         raise serializers.ValidationError('Телефон должен начинаться с "+"')
-    #     return value

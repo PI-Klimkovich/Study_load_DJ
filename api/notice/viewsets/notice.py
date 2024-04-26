@@ -1,9 +1,9 @@
 from rest_framework.viewsets import ModelViewSet
 
-from api.users.serializers.user import UserModelSerializer
-from user.models import User
+from api.notice.serializers.notice import NoticeModelSerializer
+from notice.models import Notice
 
 
-class UserModelViewSet(ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+class NoticeModelViewSet(ModelViewSet):
+    queryset = Notice.objects.all()
+    serializer_class = NoticeModelSerializer
